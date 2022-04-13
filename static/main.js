@@ -8,11 +8,15 @@ setInterval(()=>{
 		window.close();
 },100)
 
+function loadVideo(url)
+{
+	$('#video').attr('src','/video?url='+url);
+}
 
 $(()=>{
 
 if(document.location.hash)
-	$('#video').attr('src','/video?url='+document.location.hash.replace(/^#/,'').replace(/\\/g,'/'))
+	loadVideo(document.location.hash.replace(/^#/,''));
 
 
 const ws = new WebSocket(`ws://localhost:${port+1}/`,['soap','xmpp']);

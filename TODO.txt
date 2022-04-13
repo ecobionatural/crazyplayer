@@ -1,0 +1,5 @@
+
+
+3. thumbnails
+2. receive folder contents, prev|next
+1. custom video player plugin
