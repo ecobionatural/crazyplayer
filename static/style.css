@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+body.player {
+  margin: 0;
+}
+body.player video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}

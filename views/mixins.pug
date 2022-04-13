@@ -1,0 +1,24 @@
+mixin css(src)
+	link(rel='stylesheet' href=src+'?'+server_start)
+
+mixin js(src)
+	script(src=src+'?'+server_start)
+
+mixin js_ext(src)
+	script(src=src)
+
+mixin jsmodule(src)
+	script(type="module" src=src)
+
+mixin css_ext(src)
+	link(rel='stylesheet' href=src)
+
+mixin json(varname,data)
+	script var !{varname} = !{JSON.stringify(data)};
+
+mixin paginator()
+	.paginator Страницы: 
+		.pages !{paginator}
+
+mixin link(data)
+	a(href=data[0])=data[1]

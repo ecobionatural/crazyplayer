@@ -1,0 +1,6 @@
+
+module.exports = {
+
+	appname: 'player'
+
+}
