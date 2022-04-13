@@ -7,11 +7,13 @@ export default {
 		dir:'',
 		file:'',
 		files:[],
+		volume:0
 	}},
 	created(){
 		if(document.location.hash)
 			this.path = document.location.hash.replace(/^#/,'');
-		
+
+
 		//this.ping();
 	},
 	mounted(){
@@ -19,13 +21,35 @@ export default {
 			cl('onload')
 			this.play();
 		}
+
+		if(!localStorage.volume)
+			localStorage.volume = 40;
+		this.volume = +localStorage.volume;
+
+		document.addEventListener('mousewheel',e=>{
+			e.preventDefault();
+			let delta = (e.deltaY > 0 ? -1 : 1);
+			let vol = this.volume+(delta*5);
+			cl({vol})
+			if(vol < 0)vol = 0;
+			if(vol > 100)vol = 100;
+			this.volume = vol;
+		},{passive: false})
+
 	},
 	watch:{
 		async path(s){
 			let m = /^(.+?)\/([^\/]+)$/.exec(s);
 			this.file = m[2];
 			this.dir = m[1];
+		},
+		volume(v)
+		{
+			localStorage.volume = v;
+			cl({volume:v})
+			this.$refs.video.volume = v/100;
 		}
+
 	},
 	computed:{
 		src(){
@@ -48,10 +72,6 @@ export default {
 			this.path = path;
 			cl('play')
 			this.$refs.video.play();
-		},
-		playNext(dir)
-		{
-
 		}
 	},
 	template: `<div id=player>
