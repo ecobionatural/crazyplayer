@@ -27,6 +27,40 @@ async function ajax(url, data) {
 	return j;
 }
 
+let ws;
+function initWebSocket(port)
+{
+	return new Promise((s,j)=>{
+		ws = new WebSocket(`ws://localhost:${port}/`,['soap','xmpp']);
+		ws.onopen = ()=>{
+			cl('WebSocket ok');
+			s();
+		};
+		ws.onerror = e=>{
+			alert('WebSocket error '+e)
+			j();
+		};
+		ws.onclose = e => {
+			alert('Server lost. Restart application.');
+		}
+	})
+}
+
+async function wssend(cmd,data=null)
+{
+	return new Promise((s,j)=>{
+		ws.onmessage = m => {s(JSON.parse(m.data))};
+		ws.onerror = e => {
+			ws.onerror = e => {
+				alert('Server lost. Restart application.');
+			}
+			j(e);
+		}
+		ws.send(JSON.stringify({cmd,data}));
+	})
+
+}
+
 function copy(src, dst, fields) {
 	for (let f of fields)
 		dst[f] = src[f];

@@ -1,5 +1,9 @@
+import {createApp} from './js/vue.esm.js';
+import Player from './js/player.vue.mjs';
 
 const port = 3333;
+let ws;
+let cur_file;
 
 const instandce_id = Date.now();
 localStorage.instandce_id = instandce_id;
@@ -8,28 +12,16 @@ setInterval(()=>{
 		window.close();
 },100)
 
-function loadVideo(url)
-{
-	$('#video').attr('src','/video?url='+url);
-}
 
-$(()=>{
+$(async ()=>{
 
-if(document.location.hash)
-	loadVideo(document.location.hash.replace(/^#/,''));
+await initWebSocket(3334);
 
+let app = createApp(Player).mount('body	');
 
-const ws = new WebSocket(`ws://localhost:${port+1}/`,['soap','xmpp']);
-
-ws.onopen = ()=>{
-	cl('WebSocket ok');
-	ws.send(JSON.stringify({cmd:'ping',data:'qqq'}));
-};
-ws.onerror = e=>{
-	alert('WebSocket error '+e)
-}
-ws.onmessage = m => {
-	cl({message:m.data})
-}
+// await initWebSocket();
+//
+// let res = await send(ws,'read_filelist',{file:cur_file})
+// cl({res});
 
 })

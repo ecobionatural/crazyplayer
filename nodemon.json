@@ -1,4 +1,4 @@
 {
-	"watch": ["server.js", "static/", "lib/", "routers/", "views/"],
-	"ext": "js, css, html, pug"
+	"watch": ["server.js", "lib/", "routers/"],
+	"ext": "js, pug"
 }
