@@ -5,14 +5,19 @@ if(isNaN(port))
 	process.exit();
 }
 
-const express = require('express');
-const bodyParser = require('body-parser')
-const fs = require('fs');
-const path = require('path');
+import express from 'express';
+import bodyParser from 'body-parser';
 
-require('./lib/lib');
+//const ws = require('ws');
 
-c.www = __dirname+'/www';
+import fs from 'fs';
+import path from 'path';
+
+import lib from './lib/lib.js';
+
+import main_router from './routers/main.router.js';
+
+c.www = c.root+'/www';
 c.server_start = Date.now();
 const t = {};
 
@@ -27,7 +32,7 @@ var app = express();
 app.use(express.static('static'));
 app.use(express.json({limit:'10mb'}));
 app.set('view engine', 'pug');
-app.use(require('./routers/main.router.js'));
+app.use(main_router);
 
 app.listen(port,()=>{cl('Serving on port '+port)});
 

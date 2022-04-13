@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const fs = require('fs');
+import fs from 'fs';
 
 
 router.get('/',(req,res)=>{
@@ -21,4 +21,4 @@ router.get('/video',(req,res)=>{
 	res.sendFile(req.query.url);
 })
 
-module.exports = router;
+export default router;
