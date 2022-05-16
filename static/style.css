@@ -7,25 +7,19 @@ body {
 }
 #player {
   height: 100vh;
+  max-height: 100vh;
+  width: 100vw;
+  max-width: 100vw;
+  min-width: 100vw;
   display: flex;
   align-items: stretch;
   background: #272422;
 }
-#player > * {
-  flex-grow: 1;
-}
-#player .video {
-  width: 80%;
-  flex-shrink: 0;
-}
-#player .video video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
 #player .sidepanel {
-  width: 20%;
+  width: 300px;
   overflow-y: scroll;
+  min-width: 300px;
+  max-width: 300px;
 }
 #player .sidepanel .item {
   transition: background 300ms;
@@ -45,4 +39,74 @@ body {
   margin: 0;
   border-radius: 0;
   background: #05b;
+}
+.custom-video {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 1;
+  min-width: 0;
+}
+.custom-video .video {
+  flex-grow: 1;
+  position: relative;
+}
+.custom-video .video video {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+.custom-video .panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.custom-video .panel .seekbar {
+  height: 30px;
+  background: #333;
+  position: relative;
+}
+.custom-video .panel .seekbar .bar {
+  height: 100%;
+}
+.custom-video .panel .seekbar .seen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #27e;
+}
+.custom-video .panel .seekbar .ready {
+  background: #555;
+}
+.custom-video .panel .editor {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.custom-video .panel .editor .timeline_wrapper {
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+}
+.custom-video .panel .editor .timeline_wrapper .timeline {
+  height: 100px;
+  background: url("/dots.png");
+  position: relative;
+}
+.custom-video .panel .editor .timeline_wrapper .timeline .times {
+  display: flex;
+  font-size: 12px;
+  padding-left: 25px;
+}
+.custom-video .panel .editor .timeline_wrapper .timeline .times span {
+  width: 50px;
+  text-align: center;
+}
+.custom-video .panel .editor .timeline_wrapper .timeline .cursor {
+  border: 1px solid red;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }

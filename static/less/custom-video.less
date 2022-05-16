@@ -1,0 +1,81 @@
+//main: ./main.less
+.custom-video{
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	//flex-grow:0;
+	flex-shrink: 1;
+	min-width: 0;
+	.video{
+		flex-grow: 1;
+		position: relative;
+		video{
+			position: absolute;
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: 100%;
+		}
+	}
+	.panel{
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+
+		.seekbar{
+
+			height: 30px;
+			background: #333;
+			position: relative;
+
+			.bar{
+				height:100%;
+			}
+			.seen{
+				position: absolute;
+				left: 0;
+				top:0;
+				background: #27e;
+			}
+			.ready{
+				background: #555;
+			}
+		}
+
+		.editor{
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			.timeline_wrapper{
+				min-width: 0;
+				overflow: hidden;
+				background: #fff;
+
+				.timeline{
+					height: 100px;
+					background: url("/dots.png");
+					position: relative;
+					.times{
+						display: flex;
+						//justify-content: space-around;
+						//border: 1px solid red;
+						font-size: 12px;
+						padding-left:25px;
+						span{
+							width:50px;
+							text-align: center;
+						}
+					}
+					.cursor{
+						border: 1px solid red;
+						position: absolute;
+						top:0;
+						bottom: 0;
+
+					}
+				}
+
+			}
+		}
+	}
+}

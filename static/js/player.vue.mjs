@@ -1,7 +1,11 @@
 import SidePanel from './sidepanel.vue.mjs';
+import CustomVideo from './custom-video.vue.mjs';
 
 export default {
-	components: {SidePanel},
+	components: {
+		SidePanel,
+		CustomVideo
+	},
 	data(){return{
 		path:'',
 		dir:'',
@@ -17,10 +21,10 @@ export default {
 		//this.ping();
 	},
 	mounted(){
-		this.$refs.video.onloadeddata  = function(){
-			cl('onload')
-			this.play();
-		}
+		// this.$refs.video.onloadeddata  = function(){
+		// 	cl('onload')
+		// 	this.play();
+		// }
 
 		if(!localStorage.volume)
 			localStorage.volume = 40;
@@ -47,13 +51,16 @@ export default {
 		{
 			localStorage.volume = v;
 			cl({volume:v})
-			this.$refs.video.volume = v/100;
+			//this.$refs.video.volume = v/100;
 		}
 
 	},
 	computed:{
 		src(){
 			return this.path ? '/video?url='+this.path : '';
+		},
+		type(){
+			return 'video/'+this.path.replace(/.+?\.([^\.]+)$/,'$1');
 		}
 	},
 	methods:{
@@ -70,18 +77,18 @@ export default {
 		playFile(path)
 		{
 			this.path = path;
+			document.location.hash = path;
 			cl('play')
-			this.$refs.video.play();
+			//this.$refs.video.play();
 		}
 	},
 	template: `<div id=player>
-		<div class=video>
-			<video
-				ref=video
-				controls
-				:src="src"
-			/>
-		</div>
+
+		<CustomVideo
+			:type="type"
+			:src="src"
+		/>
+
 		<SidePanel
 			:cur_dir="dir"
 			:cur_file="file"

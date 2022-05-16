@@ -1,5 +1,11 @@
 
+
+8. BUG seekbar shorter than real duration
+
+7. filelist: fwd/rev buttons
+6. current folder path in filelist
+5. auto scroll to current file in files list
 4. remember time position of each video
 3. thumbnails
-2. receive folder contents, prev|next
+-2. receive folder contents, prev|next
 1. custom video player plugin

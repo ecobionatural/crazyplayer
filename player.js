@@ -1,11 +1,16 @@
+import lib from './lib/lib.js';
 import server from './lib/server.js';
 import WebSocket from 'ws';
 
-const port = 3333;
+c.port = 3333;
+c.server_start = Date.now();
+c.valid_exts = 'mp4,mpg,mpeg,avi,mkv,wmv,flv'.split(',');
+
 
 function initServer(file)
 {
-	const ws = new WebSocket('ws://localhost:'+(port+1));
+	cl('init server')
+	const ws = new WebSocket('ws://localhost:'+(c.port+1));
 	ws.on('open',()=>{
 		cl('Socket opened');
 		ws.send(JSON.stringify({cmd:'open_file',data:file.replace(/\\/g,'/')}))
@@ -14,7 +19,7 @@ function initServer(file)
 
 	ws.on('error',async ()=>{
 		cl('Socket error');
-		server(port,()=>{
+		server(c.port,()=>{
 			initServer(file);
 		});
 	})
