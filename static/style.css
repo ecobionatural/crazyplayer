@@ -15,6 +15,9 @@ body {
   align-items: stretch;
   background: #272422;
 }
+#player > * {
+  flex-grow: 1;
+}
 #player .sidepanel {
   width: 300px;
   overflow-y: scroll;

@@ -5,7 +5,6 @@ export default {
 	data(){return{
 		v:null,
 		is_playing:false,
-		seekbar_width:0,
 		seekbar_left:0,
 		duration:0,
 		pos:0,
@@ -14,8 +13,7 @@ export default {
 		tl_width: 1800,
 		tl_left: 0,
 		tl_cursor_pos: 100,
-		tl_scale: 5,
-		tl_visible_width: 100
+		tl_scale: 5
 	}},
 	mounted(){
 		$(window).resize(()=>this.resize());
@@ -59,9 +57,14 @@ export default {
 	},
 	methods: {
 		resize(){
-			this.seekbar_width = $(this.$refs.seekbar).width();
+			cl({seekbar_width:this.seekbar_width()});
 			this.seekbar_left = $(this.$refs.seekbar).offset().left;
-			this.tl_visible_width = $(this.$refs.tlwrapper).width();
+		},
+		seekbar_width(){
+			return $(this.$refs.seekbar).width();
+		},
+		tl_visible_width(){
+			return $(this.$refs.tlwrapper).width();
 		},
 		playpause(){
 			if(this.is_playing)
@@ -70,10 +73,10 @@ export default {
 			this.is_playing = !this.is_playing;
 		},
 		sec2px(sec){
-			return Math.round(sec*(this.seekbar_width/this.duration))
+			return Math.round(sec*(this.seekbar_width()/this.duration))
 		},
 		px2sec(px){
-			return Math.round(px*(this.duration/this.seekbar_width))
+			return Math.round(px*(this.duration/this.seekbar_width()))
 		},
 		getTime(){
 			return this.v.currentTime;
@@ -86,7 +89,7 @@ export default {
 		setCursorTime(sec){
 			let cpos = sec*this.tl_scale;
 			this.tl_cursor_pos = cpos;
-			let half = this.tl_visible_width/2;
+			let half = this.tl_visible_width()/2;
 			let lfield = cpos-half;
 			let rfield = cpos+half;
 			if(lfield < 0)
@@ -95,7 +98,7 @@ export default {
 				if(rfield < this.tl_width)
 					this.tl_left = -lfield;
 				else
-					this.tl_left = -(this.tl_width-is.tl_visible_width)
+					this.tl_left = -(this.tl_width-this.tl_visible_width())
 			}
 		},
 
