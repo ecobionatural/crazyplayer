@@ -95,7 +95,10 @@ export default {
 				if(rfield < this.tl_width)
 					this.tl_left = -lfield;
 				else
+				{
 					this.tl_left = -(this.tl_width-this.tl_visible_width())
+					if(this.tl_left > 0)this.tl_left=0;
+				}
 			}
 		},
 
