@@ -58,14 +58,11 @@ export default {
 	methods: {
 		resize(){
 			cl({seekbar_width:this.seekbar_width()});
-			this.seekbar_left = $(this.$refs.seekbar).offset().left;
 		},
-		seekbar_width(){
-			return $(this.$refs.seekbar).width();
-		},
-		tl_visible_width(){
-			return $(this.$refs.tlwrapper).width();
-		},
+		seekbar_left(){return $(this.$refs.seekbar).offset().left;},
+		seekbar_width(){return $(this.$refs.seekbar).width();},
+		tl_visible_left(){return $(this.$refs.tlwrapper).offset().left;},
+		tl_visible_width(){return $(this.$refs.tlwrapper).width();},
 		playpause(){
 			if(this.is_playing)
 				this.v.pause();
@@ -127,6 +124,11 @@ export default {
 			this.setTime(sec)
 		},
 
+		tl_click(e){
+			let pos = e.clientX-this.tl_visible_left()-this.tl_left;
+			this.setTime(pos/this.tl_scale);
+		},
+
 		skip(dir)
 		{
 			cl('skip');
@@ -167,7 +169,11 @@ export default {
 			</div>
 			<div class=editor>
 				<div class=timeline_wrapper ref="tlwrapper">
-					<div class=timeline :style="{width:tl_width+'px',marginLeft:tl_left+'px'}">
+					<div
+						class=timeline
+						:style="{width:tl_width+'px',marginLeft:tl_left+'px'}"
+						@click="tl_click"
+					>
 						<div class="times">
 							<span v-for="time of tl_times"
 								v-html="time"
