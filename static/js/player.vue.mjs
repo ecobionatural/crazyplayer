@@ -16,9 +16,6 @@ export default {
 	created(){
 		if(document.location.hash)
 			this.path = document.location.hash.replace(/^#/,'');
-
-
-		//this.ping();
 	},
 	mounted(){
 		// this.$refs.video.onloadeddata  = function(){

@@ -38,11 +38,31 @@ export default {
 			}
 
 			let ind = this.files.findIndex(v => v.name==this.cur_file);
-			if((direction > 0 && ind < this.files.length-1) || (direction < 0 && ind>0))
+			let path = this.findNextPlayable(ind,direction);
+			cl({path})
+			if(!path)return alert('No more videos to play');
+			this.$emit('playfile',path);
+
+		},
+		findNextPlayable(start_index,direction){
+			cl({start_index,direction})
+			let last_index = this.files.length-1;
+			if(start_index > last_index)
+				start_index = last_index;
+			else if(start_index < 0)
+				start_index = 0;
+
+			let stop_index = direction > 1 ? last_index : 0;
+			for(let ind = start_index+direction;
+				ind >= 0 && ind <= last_index;
+				ind+=direction)
 			{
-				ind += direction;
-				this.$emit('playfile',this.dir+'/'+this.files[ind].name);
+				let fname = this.files[ind].name;
+				if(/\.(mp4|mpeg4|mkv|webm|ogg)$/i.test(fname)){
+					return this.dir+'/'+fname;
+				}
 			}
+			return null;
 		},
 		clickOnFile(file){
 			if(file.name=='..')
