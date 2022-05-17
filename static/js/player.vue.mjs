@@ -27,15 +27,15 @@ export default {
 			localStorage.volume = 40;
 		this.volume = +localStorage.volume;
 
-		document.addEventListener('mousewheel',e=>{
-			e.preventDefault();
-			let delta = (e.deltaY > 0 ? -1 : 1);
-			let vol = this.volume+(delta*5);
-			cl({vol})
-			if(vol < 0)vol = 0;
-			if(vol > 100)vol = 100;
-			this.volume = vol;
-		},{passive: false})
+		// document.addEventListener('mousewheel',e=>{
+		// 	e.preventDefault();
+		// 	let delta = (e.deltaY > 0 ? -1 : 1);
+		// 	let vol = this.volume+(delta*5);
+		// 	cl({vol})
+		// 	if(vol < 0)vol = 0;
+		// 	if(vol > 100)vol = 100;
+		// 	this.volume = vol;
+		// },{passive: false})
 
 	},
 	watch:{
@@ -75,7 +75,7 @@ export default {
 		{
 			this.path = path;
 			document.location.hash = path;
-			cl('play')
+			cl('play ',path)
 			//this.$refs.video.play();
 		}
 	},

@@ -43,7 +43,7 @@ export default {
 		},
 		tl_times(){
 			let tt = [];
-			for(let t=10; t < this.duration; t+=10)
+			for(let t=10; t < this.duration-10; t+=10)
 			{
 				tt.push(`${Math.floor(t/60)}:${(t%60+'').padStart(2,'0')}`);
 			}

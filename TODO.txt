@@ -1,4 +1,7 @@
 
+
+11. Filelist: filter, search, sort
+10. Filelist: icons, colors (video/playable)
 9. show load progress on seekbar
 -8. BUG seekbar shorter than real duration
 
