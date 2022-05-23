@@ -1,5 +1,6 @@
 const cl = console.log;
 const cld = s => cl(JSON.stringify(s));
+const dbg = cld;
 
 function parse_json(s, def = {}) {
 	if (!s) return def;
@@ -28,35 +29,45 @@ async function ajax(url, data) {
 }
 
 let ws;
+let ws_listeners = [];
+let ws_mid = 1;
 function initWebSocket(port)
 {
 	return new Promise((s,j)=>{
 		ws = new WebSocket(`ws://localhost:${port}/`,['soap','xmpp']);
-		ws.onopen = ()=>{
-			cl('WebSocket ok');
-			s();
-		};
 		ws.onerror = e=>{
 			alert('WebSocket error '+e)
 			j();
 		};
 		ws.onclose = e => {
 			alert('Server lost. Restart application.');
-		}
+		};
+		ws.onmessage = m => {
+			let d = JSON.parse(m.data);
+			cl({message:d.mid})
+			if(!d.mid)throw 'Missing mid for ws message';
+			let lst = ws_listeners.find(v => v.mid==d.mid);
+			if(lst)lst.callback(d);
+		};
+		ws.onerror = e => {
+			ws.onerror = e => {
+				alert('Server lost. Restart application.');
+			}
+		};
+		ws.onopen = ()=>{
+			cl('WebSocket ok');
+			s();
+		};
 	})
 }
 
 async function wssend(cmd,data=null)
 {
 	return new Promise((s,j)=>{
-		ws.onmessage = m => {s(JSON.parse(m.data))};
-		ws.onerror = e => {
-			ws.onerror = e => {
-				alert('Server lost. Restart application.');
-			}
-			j(e);
-		}
-		ws.send(JSON.stringify({cmd,data}));
+		let mid = ws_mid++;
+		dbg({wssend:cmd,mid})
+		ws_listeners.push({mid,callback:s});
+		ws.send(JSON.stringify({mid,cmd,data}));
 	})
 
 }

@@ -1,6 +1,7 @@
 import open from 'open';
 import {dirname} from 'path';
 import fs from 'fs';
+import audio_peaks from '../lib/audio_peaks.js';
 
 export default {
 	ping(){
@@ -12,6 +13,13 @@ export default {
 		{
 			open('http://localhost:'+c.port+'/#'+d);
 		}
+	},
+	async get_peaks(d){
+		cl('getting peaks')
+		let peaks = await audio_peaks.getFromVideoCached(decodeURIComponent(d.video_path));
+		cl('peaks ready')
+		cl({peaks})
+		return {peaks};
 	},
 	get_folder_files(d){
 		//let dir = dirname(d.file);

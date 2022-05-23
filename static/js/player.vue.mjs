@@ -53,9 +53,6 @@ export default {
 
 	},
 	computed:{
-		src(){
-			return this.path ? '/video?url='+this.path : '';
-		},
 		type(){
 			return 'video/'+this.path.replace(/.+?\.([^\.]+)$/,'$1');
 		}
@@ -83,7 +80,7 @@ export default {
 
 		<CustomVideo
 			:type="type"
-			:src="src"
+			:path="path"
 		/>
 
 		<SidePanel

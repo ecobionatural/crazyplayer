@@ -1,11 +1,13 @@
 
 
 export default {
-	props:['type','src'],
+	props:['type','path'],
 	data(){return{
 		v:null,
 		is_playing:false,
-		seekbar_left:0,
+		meta_ready: false,
+		peaks_rendered:false,
+		src:'',
 		duration:0,
 		pos:0,
 		skip_steps: [1,2,5,10,20],
@@ -13,12 +15,19 @@ export default {
 		tl_width: 1800,
 		tl_left: 0,
 		tl_cursor_pos: 100,
-		tl_scale: 5
+		tl_scale: 5,
+		peaks: null,
+		peaks_canvas: null,
+		peaks_ctx:null,
+		peaks_canvas_height: 50,
+		peaks_canvas_width:0
 	}},
 	mounted(){
 		$(window).resize(()=>this.resize());
 		this.resize();
+		this.initPath();
 		this.v = this.$refs.video;
+		this.peaks_canvas = this.$refs.peaks_canvas_ref;
 
 		$(window).keydown(e => {
 			cl(e.code)
@@ -51,13 +60,27 @@ export default {
 		}
 	},
 	watch:{
-		src(){
-			this.is_playing = false;
+		path(){
+			this.initPath();
 		}
 	},
 	methods: {
 		resize(){
-			cl({seekbar_width:this.seekbar_width()});
+			cld({seekbar_width:this.seekbar_width()});
+		},
+		async initPath(){
+			this.meta_ready = false;
+			this.peaks_rendered = false;
+			this.peaks = null;
+			this.src = this.path ? '/video?url='+this.path : '';
+			this.is_playing = false;
+			if(this.path)
+			{
+				let res = await wssend('get_peaks',{video_path:this.path});
+				cl({peaks:res.peaks})
+				this.peaks = res.peaks;
+				this.renderPeaks();
+			}
 		},
 		seekbar_left(){return $(this.$refs.seekbar).offset().left;},
 		seekbar_width(){return $(this.$refs.seekbar).width();},
@@ -79,7 +102,8 @@ export default {
 			return this.v.currentTime;
 		},
 		setTime(sec){
-			this.v.currentTime = sec;
+			cl({sec})
+			this.v.currentTime = Math.round(sec);
 			//
 		},
 
@@ -102,11 +126,51 @@ export default {
 			}
 		},
 
-		meta_ready(e){
-			//cl('META RDY')
+		renderPeaks(){
+			//cl('renderPeaks')
+			//cl({meta_ready:this.meta_ready,peaks:!!this.peaks,peaks_rendered:this.peaks_rendered})
+			if(!this.meta_ready || !this.peaks || this.peaks_rendered)
+				return;
+			cl('rendering peaks...')
+			this.peaks_rendered = true;
+			this.peaks_canvas.width = this.tl_width;
+
+			if(!this.peaks_ctx)
+				this.peaks_ctx = this.peaks_canvas.getContext('2d');
+
+			let ctx = this.peaks_ctx;
+			//cl({canvas: this.peaks_canvas, ctx})
+
+			ctx.lineWidth = 2;
+
+			let scaleX = this.peaks.length/this.peaks_canvas_width;
+			//cl({scaleX})
+			let scaleY = Math.max(...this.peaks)/this.peaks_canvas_height;
+			cl({scaleY})
+			let midY = Math.floor(this.peaks_canvas_height/2);
+			ctx.strokeStyle = '#05d';
+			ctx.beginPath();
+			for(let x=0;x < this.peaks_canvas_width;x++)
+			{
+				let peak = this.peaks[Math.round(x*scaleX)] || 0;
+				//cl({peak})
+				let hpeak = Math.floor(peak/scaleY);
+				//cl({hpeak})
+				//cl({moveTo:[x,midY-hpeak]})
+				//cl({lineTo:[x,midY+hpeak]})
+				ctx.moveTo(x,midY-hpeak);
+				ctx.lineTo(x,midY+hpeak+1);
+			}
+			ctx.closePath();
+			ctx.stroke();
+		},
+
+		onMetaReady(e){
+			this.meta_ready = true;
 			this.duration = this.v.duration;
 			this.tl_width = this.duration*this.tl_scale;
-			//cl({duration:this.duration});
+			this.peaks_canvas_width = this.tl_width;
+			this.renderPeaks();
 		},
 
 		progress(e){
@@ -122,7 +186,7 @@ export default {
 		},
 
 		seekbar_click(e){
-			let sec = this.px2sec(e.clientX-this.seekbar_left);
+			let sec = this.px2sec(e.clientX-this.seekbar_left());
 			//cl({seekto:sec})
 			this.setTime(sec)
 		},
@@ -149,7 +213,7 @@ export default {
 				ref=video
 				:type="type"
 				:src="src"
-				@loadedmetadata="meta_ready"
+				@loadedmetadata="onMetaReady"
 				@progress="progress"
 				@timeupdate="timeupdate"
 				@click="playpause"
@@ -181,6 +245,10 @@ export default {
 							<span v-for="time of tl_times"
 								v-html="time"
 							/>
+						</div>
+						<div class="labels"></div>
+						<div class="sound">
+							<canvas ref="peaks_canvas_ref" width="peaks_canvas_width" height="50" />
 						</div>
 						<div class=cursor :style="{left:tl_cursor_pos+'px'}"/>
 					</div>

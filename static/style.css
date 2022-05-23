@@ -113,3 +113,6 @@ body {
   top: 0;
   bottom: 0;
 }
+.custom-video .panel .editor .timeline_wrapper .timeline canvas {
+  opacity: 0.6;
+}
