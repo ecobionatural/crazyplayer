@@ -94,7 +94,6 @@ body {
   background: #fff;
 }
 .custom-video .panel .editor .timeline_wrapper .timeline {
-  height: 100px;
   background: url("/dots.png");
   position: relative;
 }
@@ -108,11 +107,17 @@ body {
   text-align: center;
 }
 .custom-video .panel .editor .timeline_wrapper .timeline .cursor {
-  border: 1px solid red;
+  border-left: 1px solid red;
   position: absolute;
   top: 0;
   bottom: 0;
 }
-.custom-video .panel .editor .timeline_wrapper .timeline canvas {
+.custom-video .panel .editor .timeline_wrapper .timeline .labels {
+  height: 50px;
+}
+.custom-video .panel .editor .timeline_wrapper .timeline .sound {
+  border-top: 1px solid #ddd;
+}
+.custom-video .panel .editor .timeline_wrapper .timeline .sound canvas {
   opacity: 0.6;
 }

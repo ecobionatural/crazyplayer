@@ -2,6 +2,8 @@ import lib from './lib/lib.js';
 import server from './lib/server.js';
 import WebSocket from 'ws';
 
+global.lib = lib;
+
 c.port = 3333;
 c.server_start = Date.now();
 c.valid_exts = 'mp4,mpg,mpeg,avi,mkv,wmv,flv'.split(',');

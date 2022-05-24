@@ -17,7 +17,7 @@ export default {
 	},
 	watch:{
 		async dir(){
-			let res = await wssend('get_folder_files',{dir:this.dir});
+			let res = await ajax('/api/get_folder_files',{dir:this.dir});
 			this.files = res.files;
 		}
 	},

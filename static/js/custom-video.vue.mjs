@@ -20,7 +20,9 @@ export default {
 		peaks_canvas: null,
 		peaks_ctx:null,
 		peaks_canvas_height: 50,
-		peaks_canvas_width:0
+		peaks_canvas_width:0,
+
+		scenes: []
 	}},
 	mounted(){
 		$(window).resize(()=>this.resize());
@@ -76,7 +78,7 @@ export default {
 			this.is_playing = false;
 			if(this.path)
 			{
-				let res = await wssend('get_peaks',{video_path:this.path});
+				let res = await ajax('/api/get_peaks',{video_path:this.path});
 				cl({peaks:res.peaks})
 				this.peaks = res.peaks;
 				this.renderPeaks();
@@ -168,6 +170,7 @@ export default {
 		onMetaReady(e){
 			this.meta_ready = true;
 			this.duration = this.v.duration;
+			this.framerate = 0;
 			this.tl_width = this.duration*this.tl_scale;
 			this.peaks_canvas_width = this.tl_width;
 			this.renderPeaks();
@@ -182,7 +185,7 @@ export default {
 		timeupdate(){
 			this.pos = this.v.currentTime;
 			this.setCursorTime(this.pos);
-			//cl({pos:this.pos})
+			cl({pos:this.pos})
 		},
 
 		seekbar_click(e){

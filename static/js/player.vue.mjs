@@ -59,7 +59,7 @@ export default {
 	},
 	methods:{
 		async ping(){
-			let res = await wssend('ping');
+			let res = await ajax('/api/ping');
 			///cl({res});
 			if(res.cur_file!=this.file)
 			{

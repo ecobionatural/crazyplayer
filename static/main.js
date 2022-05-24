@@ -15,7 +15,7 @@ setInterval(()=>{
 
 $(async ()=>{
 
-await initWebSocket(3334);
+//await initWebSocket(3334);
 
 let app = createApp(Player).mount('body	');
 
