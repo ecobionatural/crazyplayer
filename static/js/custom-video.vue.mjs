@@ -74,7 +74,7 @@ export default {
 			this.meta_ready = false;
 			this.peaks_rendered = false;
 			this.peaks = null;
-			this.src = this.path ? '/video?url='+this.path : '';
+			this.src = this.path ? '/video?url='+encodeURIComponent(this.path) : '';
 			this.is_playing = false;
 			if(this.path)
 			{

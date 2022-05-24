@@ -20,7 +20,7 @@ router.get('/',(req,res)=>{
 // 	res.send('Q!')
 //})
 router.get('/video',(req,res)=>{
-	res.sendFile(req.query.url);
+	res.sendFile(decodeURIComponent(req.query.url));
 })
 
 router.post('/api/:cmd',async (req,res)=>{

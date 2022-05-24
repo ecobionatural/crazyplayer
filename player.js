@@ -48,7 +48,7 @@ async function initServer(file)
 
 ;(async ()=>{
 
-let file = process.argv[2] || 'h:/pvar/pkf/motherless/inside/motherless.com_Olive___ba_B7CB6E3_Olive___batgirl_superheroine_rape_Fuck_mouthshot_shooting_shot_dying_death_dead_big-tits.mp4';
+let file = process.argv[2] || '';
 
 await initServer(file);
 
