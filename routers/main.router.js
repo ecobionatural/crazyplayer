@@ -31,7 +31,7 @@ router.post('/api/:cmd',async (req,res)=>{
 			},
 			open_file(b){
 				cl('Opening file '+b.file)
-				if(d)
+				if(b)
 				{
 					//opening page in default browser
 					open('http://localhost:'+c.port+'/#'+b.file);
