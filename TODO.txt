@@ -1,5 +1,5 @@
 
-
+12. Frame-by-frame seek
 11. Filelist: filter, search, sort
 10. Filelist: icons, colors (video/playable)
 9. show load progress on seekbar

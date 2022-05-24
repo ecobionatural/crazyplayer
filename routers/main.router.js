@@ -46,7 +46,7 @@ router.post('/api/:cmd',async (req,res)=>{
 			},
 			get_folder_files(b){
 				//let dir = dirname(d.file);
-				let dir = b.dir;
+				let dir = decodeURIComponent(b.dir);
 				if(/^[a-z]\:$/i.test(dir))dir += '/';
 				cl({dir})
 				let ff = fs.readdirSync(dir);
