@@ -4,7 +4,7 @@ export default {
 	props:['type','path'],
 	data(){return{
 		v:null,
-		is_playing:false,
+		is_playing: false,
 		meta_ready: false,
 		peaks_rendered:false,
 		src:'',
@@ -27,8 +27,8 @@ export default {
 	mounted(){
 		$(window).resize(()=>this.resize());
 		this.resize();
-		this.initPath();
 		this.v = this.$refs.video;
+		this.initPath();
 		this.peaks_canvas = this.$refs.peaks_canvas_ref;
 
 		$(window).keydown(e => {
@@ -42,7 +42,7 @@ export default {
 	},
 	computed: {
 		play_caption(){
-			return this.is_playing ? 'pause' : 'play'
+			return this.is_playing ? 'pause' : 'play';
 		},
 		ready_bar_width(){
 			return 700;
@@ -71,11 +71,18 @@ export default {
 			cld({seekbar_width:this.seekbar_width()});
 		},
 		async initPath(){
+			if(!this.path)
+				return;
 			this.meta_ready = false;
 			this.peaks_rendered = false;
 			this.peaks = null;
 			this.src = this.path ? '/video?url='+encodeURIComponent(this.path) : '';
-			this.is_playing = false;
+			setTimeout(()=>{
+				this.v.play();
+				cl({paused:this.v.paused})
+				this.onTogglePlaying();
+			},1)
+
 			if(this.path)
 			{
 				let res = await ajax('/api/get_peaks',{video_path:this.path});
@@ -89,10 +96,9 @@ export default {
 		tl_visible_left(){return $(this.$refs.tlwrapper).offset().left;},
 		tl_visible_width(){return $(this.$refs.tlwrapper).width();},
 		playpause(){
-			if(this.is_playing)
-				this.v.pause();
-			else this.v.play();
-			this.is_playing = !this.is_playing;
+			if(this.v.paused)
+				this.v.play();
+			else this.v.pause();
 		},
 		sec2px(sec){
 			return Math.round(sec*(this.seekbar_width()/this.duration))
@@ -176,16 +182,21 @@ export default {
 			this.renderPeaks();
 		},
 
-		progress(e){
+		onProgress(e){
 			let v = this.v;
 			//cl('progress')
 			//cl(v.seekable)
 		},
 
-		timeupdate(){
+		onTimeupdate(){
 			this.pos = this.v.currentTime;
 			this.setCursorTime(this.pos);
 			cl({pos:this.pos})
+		},
+
+		onTogglePlaying()
+		{
+			this.is_playing = !this.v.paused;
 		},
 
 		seekbar_click(e){
@@ -217,8 +228,10 @@ export default {
 				:type="type"
 				:src="src"
 				@loadedmetadata="onMetaReady"
-				@progress="progress"
-				@timeupdate="timeupdate"
+				@progress="onProgress"
+				@timeupdate="onTimeupdate"
+				@play="onTogglePlaying"
+				@pause="onTogglePlaying"
 				@click="playpause"
 			/>
 		</div>
