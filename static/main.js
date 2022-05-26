@@ -17,7 +17,7 @@ $(async ()=>{
 
 //await initWebSocket(3334);
 
-let app = createApp(Player).mount('body	');
+let app = createApp(Player).mount('body');
 
 // await initWebSocket();
 //
