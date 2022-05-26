@@ -52,19 +52,20 @@ router.post('/api/:cmd',async (req,res)=>{
 				let ff = fs.readdirSync(dir);
 				let rex = new RegExp(`\\.(${c.valid_exts.join('|')})$`);
 
-				return {files:ff
-					.map(f=>{
-						let out = {name:f}
-						try{
-							let stat = fs.lstatSync(d.dir+'/'+f);
-							out.isdir = stat.isDirectory();
-						}catch(e)
-						{
-							out.error = e+'';
-						}
-						return out;
-					})
-					.filter(d=>d.isdir || rex.test(d.name))
+				return {
+					files:ff
+						.map(f => {
+							let out = {name:f}
+							try{
+								let stat = fs.lstatSync(b.dir+'/'+f);
+								out.isdir = stat.isDirectory();
+							}catch(e)
+							{
+								out.error = e+'';
+							}
+							return out;
+						})
+						.filter(d=>d.isdir || rex.test(d.name))
 				};
 			}
 		});

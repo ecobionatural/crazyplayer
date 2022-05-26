@@ -58,7 +58,7 @@ export default {
 				ind+=direction)
 			{
 				let fname = this.files[ind].name;
-				if(/\.(mp4|mpeg4|mkv|webm|ogg)$/i.test(fname)){
+				if(/\.(mp4|mpeg4|mkv|webm|ogg|mp3)$/i.test(fname)){
 					return this.dir+'/'+fname;
 				}
 			}

@@ -1,4 +1,6 @@
 
+
+
 12. Frame-by-frame seek
 11. Filelist: filter, search, sort
 10. Filelist: icons, colors (video/playable)
@@ -12,3 +14,4 @@
 3. thumbnails
 -2. receive folder contents, prev|next
 -1. custom video player plugin
+ 

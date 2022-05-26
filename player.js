@@ -6,7 +6,7 @@ global.lib = lib;
 
 c.port = 3333;
 c.server_start = Date.now();
-c.valid_exts = 'mp4,mpg,mpeg,avi,mkv,wmv,flv'.split(',');
+c.valid_exts = 'mp4,mpg,mpeg,avi,mkv,wmv,flv,mp3'.split(',');
 
 
 async function initServer(file)

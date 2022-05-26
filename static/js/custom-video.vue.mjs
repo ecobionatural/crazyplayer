@@ -42,7 +42,7 @@ export default {
 	},
 	computed: {
 		play_caption(){
-			return this.is_playing ? 'Pause' : 'Play'
+			return this.is_playing ? 'pause' : 'play'
 		},
 		ready_bar_width(){
 			return 700;
@@ -224,7 +224,7 @@ export default {
 		</div>
 		<div class=panel>
 			<div class=buttons>
-				<button @click="playpause" v-html="play_caption"></button>
+				<button @click="playpause" :class="play_caption"></button>
 				Step: <select v-model="skip_step">
 					<option
 						v-for="step of skip_steps"
