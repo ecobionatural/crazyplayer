@@ -40,9 +40,9 @@ export default {
 	},
 	watch:{
 		async path(s){
-			let m = /^(.+?)\/([^\/]+)$/.exec(s);
-			this.file = m[2];
-			this.dir = m[1];
+			let m = splitDir(s)
+			this.file = m[1];
+			this.dir = m[0];
 		},
 		volume(v)
 		{
@@ -89,7 +89,7 @@ export default {
 
 		<SidePanel
 			:cur_dir="dir"
-			:cur_file="file"
+			:playing_path="path"
 			@playfile="onPlayFile"
 			@change_dir="onChangeDir"
 		/>

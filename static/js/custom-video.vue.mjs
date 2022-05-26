@@ -191,7 +191,7 @@ export default {
 		onTimeupdate(){
 			this.pos = this.v.currentTime;
 			this.setCursorTime(this.pos);
-			cl({pos:this.pos})
+			//cl({pos:this.pos})
 		},
 
 		onTogglePlaying()

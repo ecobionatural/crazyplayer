@@ -120,3 +120,9 @@ function urlify(s)
 		.replace(/[^a-z\d]+/ig,'_')
 		.replace(/_+$/,'');
 }
+
+function splitDir(s)
+{
+	let m = /^(.+?)\/([^\/]+)$/.exec(s);
+	return [m[1],m[2]];
+}

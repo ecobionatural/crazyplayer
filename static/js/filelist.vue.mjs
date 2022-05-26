@@ -1,12 +1,14 @@
 
 export default {
-	props: ['cur_dir','cur_file'],
+	props: ['cur_dir','playing_path'],
 	data(){return{
-		dir:'',
-		files:[]
+		playing_dir:'',
+		playing_file:'',
+		cur_dir_files:[]
 	}},
-	created(){
-		this.dir = this.cur_dir;
+	async created(){
+		this.cur_dir_files = await this.getFileList(this.cur_dir);
+		this.initPath();
 		window.onkeydown = e => {
 			if(e.key=='PageDown' || e.key=='PageUp')
 			{
@@ -16,14 +18,32 @@ export default {
 		}
 	},
 	watch:{
-		async dir(){
-			let res = await ajax('/api/get_folder_files',{dir:this.dir});
-			this.files = res.files;
+		async cur_dir(){
+			this.cur_dir_files = await this.getFileList(this.cur_dir);
+		},
+		playing_path(){
+			this.initPath();
 		}
 	},
 	computed:{
 		filelist(){
-			let files = this.files.map(f => {
+			return this.prepareFileList(this.cur_dir_files)
+		}
+	},
+	methods:{
+		initPath()
+		{
+			let m = splitDir(this.playing_path);
+			this.playing_dir = m[0];
+			this.playing_file = m[1];
+		},
+		async getFileList(dir){
+			let res = await ajax('/api/get_folder_files',{dir});
+			return res.files;
+		},
+		prepareFileList(list)
+		{
+			let files = list.map(f => {
 				let ext = f.name.replace(/^.+?\.([^\.]+)$/,'$1');
 				return{
 					...f,
@@ -38,21 +58,25 @@ export default {
 				{name:'..',type:'noext'},
 				...files
 			];
-		}
-	},
-	methods:{
-		playNext(direction)
+		},
+		async playNext(direction)
 		{
 			cl({direction})
-			if(this.dir!=this.cur_dir)
+			let filelist = this.filelist;
+			if(this.playing_dir!=this.cur_dir)
 			{
-				this.dir = this.cur_dir;
-				setTimeout(()=>{this.playNext(direction)},0);
-				return;
+				// this.$emit('change_dir',this.playing_dir);
+				// setTimeout(()=>{this.playNext(direction)},10);
+				// return;
+				filelist = this.prepareFileList(await this.getFileList(this.playing_dir))
 			}
+			else
+				filelist = this.filelist;
 
-			let ind = this.filelist.findIndex(v => v.name==this.cur_file);
-			let path = this.findNextPlayable(ind,direction);
+			cl({dir:this.playing_dir,filelist})
+
+			let ind = filelist.findIndex(v => v.name==this.playing_file);
+			let path = this.findNextPlayable(filelist,ind,direction);
 			cl({path})
 			if(!path)return alert('No more videos to play');
 			this.$emit('playfile',path);
@@ -69,9 +93,9 @@ export default {
 			if(/^(mp3)$/.test(ext))
 				return 'audio';
 		},
-		findNextPlayable(start_index,direction){
+		findNextPlayable(filelist,start_index,direction){
 			cl({start_index,direction})
-			let last_index = this.filelist.length-1;
+			let last_index = filelist.length-1;
 			if(start_index > last_index)
 				start_index = last_index;
 			else if(start_index < 0)
@@ -82,9 +106,9 @@ export default {
 				ind >= 0 && ind <= last_index;
 				ind+=direction)
 			{
-				let fname = this.filelist[ind].name;
+				let fname = filelist[ind].name;
 				if(this.isPlayable(fname)){
-					return this.dir+'/'+fname;
+					return this.playing_dir+'/'+fname;
 				}
 			}
 			return null;
@@ -92,16 +116,16 @@ export default {
 		clickOnFile(file){
 			if(file.name=='..')
 			{
-				this.dir = this.dir.replace(/\/[^\/]+$/,'');
-				this.$emit('change_dir',this.dir);
+				let dir = splitDir(this.cur_dir);
+				this.$emit('change_dir',dir[0]);
 			}
 			else if(file.isdir)
 			{
-				this.dir += '/'+file.name;
-				this.$emit('change_dir',this.dir);
+				let dir = this.cur_dir+'/'+file.name;
+				this.$emit('change_dir',dir);
 			}
 			else
-				this.$emit('playfile',this.dir+'/'+file.name)
+				this.$emit('playfile',this.cur_dir+'/'+file.name)
 		}
 	},
 	template: `
@@ -113,7 +137,7 @@ export default {
 				:key="file.name"
 				v-html="file.name"
 				:class="{
-					current:(file.name==cur_file && dir==cur_dir),
+					current:(file.name==playing_file && playing_dir==cur_dir),
 					[file.type]:1,
 					unplayable: file.unplayable
 				}"
