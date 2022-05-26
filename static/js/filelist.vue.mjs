@@ -51,7 +51,7 @@ export default {
 				return;
 			}
 
-			let ind = this.files.findIndex(v => v.name==this.cur_file);
+			let ind = this.filelist.findIndex(v => v.name==this.cur_file);
 			let path = this.findNextPlayable(ind,direction);
 			cl({path})
 			if(!path)return alert('No more videos to play');
@@ -71,7 +71,7 @@ export default {
 		},
 		findNextPlayable(start_index,direction){
 			cl({start_index,direction})
-			let last_index = this.files.length-1;
+			let last_index = this.filelist.length-1;
 			if(start_index > last_index)
 				start_index = last_index;
 			else if(start_index < 0)
@@ -82,7 +82,7 @@ export default {
 				ind >= 0 && ind <= last_index;
 				ind+=direction)
 			{
-				let fname = this.files[ind].name;
+				let fname = this.filelist[ind].name;
 				if(this.isPlayable(fname)){
 					return this.dir+'/'+fname;
 				}

@@ -1,5 +1,8 @@
 
-13. Auto play next setting
+
+15. BUG. Server crashes when failed to get peaks
+14. volume control
+13. "Auto play next" setting
 12.1 Get file framerate from server
 12. Frame-by-frame seek
 11. Filelist: filter, search, sort
