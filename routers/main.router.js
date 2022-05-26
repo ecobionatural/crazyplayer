@@ -5,6 +5,8 @@ import open from 'open';
 import {dirname} from 'path';
 import audio_peaks from '../lib/audio_peaks.js';
 
+const valid_exts = 'mp[234]|mpe?g[234]?|avi|mkv|wmv|flv|jpe?g|png|gif|bmp|webp|tiff?'
+
 router.get('/',(req,res)=>{
 	res.render(c.root+'/views/main.pug');
 });
@@ -50,7 +52,7 @@ router.post('/api/:cmd',async (req,res)=>{
 				if(/^[a-z]\:$/i.test(dir))dir += '/';
 				cl({dir})
 				let ff = fs.readdirSync(dir);
-				let rex = new RegExp(`\\.(${c.valid_exts.join('|')})$`);
+				let rex = new RegExp(`\\.(${valid_exts})$`);
 
 				return {
 					files:ff

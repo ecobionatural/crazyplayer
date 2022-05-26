@@ -25,29 +25,57 @@ body {
   flex-grow: 1;
 }
 #player .sidepanel {
-  width: 300px;
+  width: 400px;
   overflow-y: scroll;
-  min-width: 300px;
-  max-width: 300px;
+  min-width: 400px;
+  max-width: 400px;
 }
-#player .sidepanel .item {
+#player .sidepanel .filelist {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+#player .sidepanel .filelist .item {
   transition: background 300ms;
   cursor: pointer;
-  margin: 5px;
+  margin: 1px;
+  padding: 0.7em;
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
-  border-radius: 4px;
-  padding: 10px;
-  text-overflow: ellipsis;
+  border-radius: 2xpx;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
-#player .sidepanel .item:hover {
+#player .sidepanel .filelist .item:hover {
   background: rgba(255, 255, 255, 0.4);
 }
-#player .sidepanel .item.current {
+#player .sidepanel .filelist .item::before {
+  display: inline-block;
+  width: 1em;
+  font-family: icons;
+  padding-right: 0.7em;
+}
+#player .sidepanel .filelist .item.current {
   margin: 0;
   border-radius: 0;
   background: #05b;
+}
+#player .sidepanel .filelist .item.folder::before {
+  font-size: 1.1em;
+  content: '\f114';
+}
+#player .sidepanel .filelist .item.unplayable {
+  color: #777;
+}
+#player .sidepanel .filelist .item.video::before {
+  content: '\e800';
+}
+#player .sidepanel .filelist .item.audio::before {
+  content: '\e801';
+}
+#player .sidepanel .filelist .item.image::before {
+  content: '\e807';
 }
 .custom-video {
   display: flex;
