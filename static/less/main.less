@@ -38,73 +38,84 @@ body{
 	.sidepanel{
 		@w: 400px;
 		width: @w;
-		overflow-y: scroll;
 		min-width: @w;
 		max-width: @w;
 
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+
+		.cur_dir{
+			font-size: 1.2em;
+			color: #fff;
+			padding: 0.5em;
+			font-weight: bold;
+		}
 
 		.filelist{
-			display: flex;
-			flex-direction: column;
-			align-items: stretch;
-			.item{
-				transition: background 300ms;
-				cursor: pointer;
-				margin: 1px;
-				padding: 0.7em;
-				background: fade(#fff,20);
-				color: #fff;
-				border-radius: 2xpx;
-				text-overflow: ellipsis;
-				overflow: hidden;
+			overflow-y: scroll;
+			.list{
+				display: flex;
+				flex-direction: column;
+				align-items: stretch;
 
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
+				.item{
+					transition: background 300ms;
+					cursor: pointer;
+					margin: 1px;
+					padding: 0.7em;
+					background: fade(#fff,20);
+					color: #fff;
+					border-radius: 2xpx;
+					text-overflow: ellipsis;
+					overflow: hidden;
 
-				&:hover{
-					background: fade(#fff,40);
-				}
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
 
-				&::before{
-					display: inline-block;
-					width: 1em;
-					font-family: icons;
-					padding-right: 0.7em;
-				}
-
-				&.current{
-					margin:0;
-					border-radius: 0;
-					background: #05b;
-				}
-
-				&.folder{
-					&::before{
-						font-size: 1.1em;
-						content: '\f114';
+					&:hover{
+						background: fade(#fff,40);
 					}
-				}
 
-				&.unplayable{
-					color: #777;
-				}
+					&::before{
+						display: inline-block;
+						width: 1em;
+						font-family: icons;
+						padding-right: 0.7em;
+					}
 
-				&.video::before{
-					content: '\e800'
-				}
+					&.current{
+						margin:0;
+						border-radius: 0;
+						background: #05b;
+					}
 
-				&.audio::before{
-					content: '\e801'
-				}
+					&.folder{
+						&::before{
+							font-size: 1.1em;
+							content: '\f114';
+						}
+					}
 
-				&.image::before{
-					content: '\e807'
+					&.unplayable{
+						color: #777;
+					}
+
+					&.video::before{
+						content: '\e800'
+					}
+
+					&.audio::before{
+						content: '\e801'
+					}
+
+					&.image::before{
+						content: '\e807'
+					}
 				}
 			}
 		}
-
-
 	}
 }
 

@@ -26,16 +26,27 @@ body {
 }
 #player .sidepanel {
   width: 400px;
-  overflow-y: scroll;
   min-width: 400px;
   max-width: 400px;
-}
-#player .sidepanel .filelist {
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
-#player .sidepanel .filelist .item {
+#player .sidepanel .cur_dir {
+  font-size: 1.2em;
+  color: #fff;
+  padding: 0.5em;
+  font-weight: bold;
+}
+#player .sidepanel .filelist {
+  overflow-y: scroll;
+}
+#player .sidepanel .filelist .list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+#player .sidepanel .filelist .list .item {
   transition: background 300ms;
   cursor: pointer;
   margin: 1px;
@@ -47,34 +58,34 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#player .sidepanel .filelist .item:hover {
+#player .sidepanel .filelist .list .item:hover {
   background: rgba(255, 255, 255, 0.4);
 }
-#player .sidepanel .filelist .item::before {
+#player .sidepanel .filelist .list .item::before {
   display: inline-block;
   width: 1em;
   font-family: icons;
   padding-right: 0.7em;
 }
-#player .sidepanel .filelist .item.current {
+#player .sidepanel .filelist .list .item.current {
   margin: 0;
   border-radius: 0;
   background: #05b;
 }
-#player .sidepanel .filelist .item.folder::before {
+#player .sidepanel .filelist .list .item.folder::before {
   font-size: 1.1em;
   content: '\f114';
 }
-#player .sidepanel .filelist .item.unplayable {
+#player .sidepanel .filelist .list .item.unplayable {
   color: #777;
 }
-#player .sidepanel .filelist .item.video::before {
+#player .sidepanel .filelist .list .item.video::before {
   content: '\e800';
 }
-#player .sidepanel .filelist .item.audio::before {
+#player .sidepanel .filelist .list .item.audio::before {
   content: '\e801';
 }
-#player .sidepanel .filelist .item.image::before {
+#player .sidepanel .filelist .list .item.image::before {
   content: '\e807';
 }
 .custom-video {

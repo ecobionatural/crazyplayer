@@ -59,7 +59,7 @@ export default {
 
 		},
 		isPlayable(fname){
-			return /\.(mp4|mpeg4|mkv|webm|ogg|mp3)$/i.test(fname)
+			return /\.(mp[234]|mpe?g[234]?|mkv|webm|ogg)$/i.test(fname)
 		},
 		getMediaType(ext){
 			if(/^(mpe?g[24]?|mp[24]|mkv|webm|ogg|wmv|avi|flv)$/.test(ext))
@@ -93,10 +93,12 @@ export default {
 			if(file.name=='..')
 			{
 				this.dir = this.dir.replace(/\/[^\/]+$/,'');
+				this.$emit('change_dir',this.dir);
 			}
 			else if(file.isdir)
 			{
-				this.dir += '/'+file.name
+				this.dir += '/'+file.name;
+				this.$emit('change_dir',this.dir);
 			}
 			else
 				this.$emit('playfile',this.dir+'/'+file.name)
@@ -104,18 +106,20 @@ export default {
 	},
 	template: `
 	<div class="filelist">
-		<div
-			class="item"
-			v-for="file of filelist"
-			:key="file.name"
-			v-html="file.name"
-			:class="{
-				current:(file.name==cur_file && dir==cur_dir),
-				[file.type]:1,
-				unplayable: file.unplayable
-			}"
-			:title="file.name"
-			@click="clickOnFile(file)"
-		/>
+		<div class=list>
+			<div
+				class="item"
+				v-for="file of filelist"
+				:key="file.name"
+				v-html="file.name"
+				:class="{
+					current:(file.name==cur_file && dir==cur_dir),
+					[file.type]:1,
+					unplayable: file.unplayable
+				}"
+				:title="file.name"
+				@click="clickOnFile(file)"
+			/>
+		</div>
 	</div>`
 }

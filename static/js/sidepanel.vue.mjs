@@ -6,10 +6,12 @@ export default {
 	methods:{
 	},
 	template: `<div class=sidepanel>
+		<div class="cur_dir" v-html="cur_dir"></div>
 		<FileList
 			:cur_file="cur_file"
 			:cur_dir="cur_dir"
 			@playfile="$emit('playfile',$event)"
+			@change_dir="$emit('change_dir',$event)"
 		/>
 	</div>`
 }

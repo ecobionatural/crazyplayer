@@ -68,12 +68,16 @@ export default {
 			//cl({file:this.file})
 			setTimeout(()=>this.ping(),1000);
 		},
-		playFile(path)
+		onPlayFile(path)
 		{
 			this.path = path;
 			document.location.hash = path;
 			cl('play ',path)
 			//this.$refs.video.play();
+		},
+		onChangeDir(path)
+		{
+			this.dir = path;
 		}
 	},
 	template: `<div id=player>
@@ -86,7 +90,8 @@ export default {
 		<SidePanel
 			:cur_dir="dir"
 			:cur_file="file"
-			@playfile="playFile"
+			@playfile="onPlayFile"
+			@change_dir="onChangeDir"
 		/>
 	</div>`
 }
