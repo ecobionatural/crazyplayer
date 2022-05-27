@@ -38,6 +38,16 @@ body {
   padding: 0.5em;
   font-weight: bold;
 }
+#player .sidepanel .cur_dir a {
+  margin: 0 2px;
+  cursor: pointer;
+  display: inline-block;
+  border-bottom: 1px dotted #cccccc;
+}
+#player .sidepanel .cur_dir a:hover {
+  color: #3af;
+  border-bottom: 1px solid #3af;
+}
 #player .sidepanel .filelist {
   overflow-y: scroll;
 }

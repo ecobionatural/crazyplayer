@@ -1,5 +1,5 @@
 
-
+16. INFO button - about current video (title,path,params)
 15. BUG. Server crashes when failed to get peaks
 14. volume control
 13. "Auto play next" setting

@@ -123,6 +123,6 @@ function urlify(s)
 
 function splitDir(s)
 {
-	let m = /^(.+?)\/([^\/]+)$/.exec(s);
-	return [m[1],m[2]];
+	let m = /^(.*?\/)([^\/]+)\/?$/.exec(s);
+	return m ? [m[1],m[2]] : [''];
 }

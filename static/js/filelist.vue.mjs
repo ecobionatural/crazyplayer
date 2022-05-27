@@ -121,11 +121,11 @@ export default {
 			}
 			else if(file.isdir)
 			{
-				let dir = this.cur_dir+'/'+file.name;
+				let dir = this.cur_dir+file.name+'/';
 				this.$emit('change_dir',dir);
 			}
 			else
-				this.$emit('playfile',this.cur_dir+'/'+file.name)
+				this.$emit('playfile',this.cur_dir+file.name)
 		}
 	},
 	template: `

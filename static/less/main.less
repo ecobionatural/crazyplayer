@@ -46,10 +46,23 @@ body{
 		align-items: stretch;
 
 		.cur_dir{
+			@col: #fff;
+			@col2: #3af;
 			font-size: 1.2em;
-			color: #fff;
+			color: @col;
 			padding: 0.5em;
 			font-weight: bold;
+			a{
+				margin: 0 2px;
+				cursor: pointer;
+				display: inline-block;
+				border-bottom: 1px dotted darken(@col,20);
+
+				&:hover{
+					color: @col2;
+					border-bottom: 1px solid @col2;
+				}
+			}
 		}
 
 		.filelist{

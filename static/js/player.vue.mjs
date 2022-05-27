@@ -8,7 +8,6 @@ export default {
 	},
 	data(){return{
 		path:'',
-		dir:'',
 		file:'',
 		files:[],
 		volume:0
@@ -42,7 +41,6 @@ export default {
 		async path(s){
 			let m = splitDir(s)
 			this.file = m[1];
-			this.dir = m[0];
 		},
 		volume(v)
 		{
@@ -74,10 +72,6 @@ export default {
 			document.location.hash = path;
 			cl('play ',path)
 			//this.$refs.video.play();
-		},
-		onChangeDir(path)
-		{
-			this.dir = path;
 		}
 	},
 	template: `<div id=player>
@@ -88,10 +82,8 @@ export default {
 		/>
 
 		<SidePanel
-			:cur_dir="dir"
 			:playing_path="path"
 			@playfile="onPlayFile"
-			@change_dir="onChangeDir"
 		/>
 	</div>`
 }
